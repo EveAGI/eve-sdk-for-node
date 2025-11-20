@@ -127,9 +127,11 @@ async function main() {
     console.log('🚀 GuGoTik SDK Example\n');
     
     // Register or login
-    const authResponse = await loginUser();
+    // const authResponse = await registerUser();
     
+    const authResponse = await loginUser();
     if (authResponse) {
+        console.log('✅ User registered/logged in successfully');
         const { user_id, token } = authResponse;
         
         // Get user info

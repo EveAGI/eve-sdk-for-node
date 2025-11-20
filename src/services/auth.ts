@@ -40,7 +40,7 @@ export class Auth {
             payload['password'] = password;
         }
 
-        const uri = new URL(this.client.config.endpoint + apiPath);
+        const uri = new URL(this.client.config.endpoint + apiPath + '?username=' + username + '&password=' + password);
 
         const apiHeaders: { [header: string]: string } = {
             'content-type': 'application/x-www-form-urlencoded',
@@ -87,7 +87,7 @@ export class Auth {
             payload['password'] = password;
         }
 
-        const uri = new URL(this.client.config.endpoint + apiPath);
+        const uri = new URL(this.client.config.endpoint + apiPath + '?username=' + username + '&password=' + password);
 
         const apiHeaders: { [header: string]: string } = {
             'content-type': 'application/x-www-form-urlencoded',
