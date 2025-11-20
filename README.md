@@ -1,175 +1,346 @@
-# Appwrite Node.js SDK
+# GuGoTik Node.js SDK
 
-![License](https://img.shields.io/github/license/appwrite/sdk-for-node.svg?style=flat-square)
-![Version](https://img.shields.io/badge/api%20version-1.8.0-blue.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/com/appwrite/sdk-generator?style=flat-square)](https://travis-ci.com/appwrite/sdk-generator)
-[![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
-[![Discord](https://img.shields.io/discord/564160730845151244?label=discord&style=flat-square)](https://appwrite.io/discord)
+![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.0.0-green.svg?style=flat-square)
 
-**This SDK is compatible with Appwrite server version 1.8.x. For older versions, please check [previous releases](https://github.com/appwrite/sdk-for-node/releases).**
+**Official Node.js SDK for GuGoTik - A TikTok-like Video Sharing Platform**
 
- > This is the Node.js SDK for integrating with Appwrite from your Node.js server-side code.
-                            If you're looking to integrate from the browser, you should check [appwrite/sdk-for-web](https://github.com/appwrite/sdk-for-web)
+> This is the Node.js SDK for integrating with GuGoTik backend from your Node.js server-side code.
 
-Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Node.js SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to [https://appwrite.io/docs](https://appwrite.io/docs)
+GuGoTik is a microservices-based TikTok-like video sharing platform backend developed in Go. This SDK provides a simple and intuitive interface to interact with all GuGoTik backend APIs including authentication, user management, video feed, publishing, comments, favorites, relations, and messaging.
 
-![Appwrite](https://github.com/appwrite/appwrite/raw/main/public/images/github.png)
+## Features
+
+- 🔐 **Authentication** - User login and registration
+- 👤 **User Management** - Get user information and profiles
+- 📹 **Video Feed** - Browse recommended videos
+- 📤 **Publishing** - Upload and publish videos
+- 💬 **Comments** - Add, delete, list, and count comments
+- ❤️ **Favorites** - Like/unlike videos and manage favorites
+- 👥 **Relations** - Follow/unfollow users, get followers and friends
+- 💌 **Messaging** - Send and receive direct messages
+- 🎯 **TypeScript Support** - Full TypeScript definitions included
 
 ## Installation
 
 To install via [NPM](https://www.npmjs.com/):
 
 ```bash
-npm install node-appwrite --save
+npm install gugotik-sdk --save
 ```
 
+Or with Yarn:
+
+```bash
+yarn add gugotik-sdk
+```
 
 ## Getting Started
 
-### Init your SDK
+### Initialize the SDK
 
-Initialize your SDK with your Appwrite server API endpoint and project ID which can be found in your project settings page and your new API secret Key project API keys section.
+Initialize your SDK with your GuGoTik backend endpoint (default: `http://localhost:37000`):
 
-```js
-const sdk = require('node-appwrite');
-
-let client = new sdk.Client();
-
-client
-    .setEndpoint('https://[HOSTNAME_OR_IP]/v1') // Your API Endpoint
-    .setProject('5df5acd0d48c2') // Your project ID
-    .setKey('919c2d18fb5d4...a2ae413da83346ad2') // Your secret API key
-    .setSelfSigned() // Use only on dev mode with a self-signed SSL cert
-;
-```
-
-### Make Your First Request
-
-Once your SDK object is set, create any of the Appwrite service objects and choose any request to send. Full documentation for any service method you would like to use can be found in your SDK documentation or in the [API References](https://appwrite.io/docs) section.
-
-```js
-let users = new sdk.Users(client);
-
-let promise = users.create(sdk.ID.unique(), "email@example.com", "+123456789", "password", "Walter O'Brien");
-
-promise.then(function (response) {
-    console.log(response);
-}, function (error) {
-    console.log(error);
-});
-```
-
-### Full Example
-```js
-const sdk = require('node-appwrite');
-
-let client = new sdk.Client();
-
-client
-    .setEndpoint('https://[HOSTNAME_OR_IP]/v1') // Your API Endpoint
-    .setProject('5df5acd0d48c2') // Your project ID
-    .setKey('919c2d18fb5d4...a2ae413da83346ad2') // Your secret API key
-    .setSelfSigned() // Use only on dev mode with a self-signed SSL cert
-;
-
-let users = new sdk.Users(client);
-let promise = users.create(sdk.ID.unique(), "email@example.com", "+123456789", "password", "Walter O'Brien");
-
-promise.then(function (response) {
-    console.log(response);
-}, function (error) {
-    console.log(error);
-});
-```
-
-### Type Safety with Models
-
-The Appwrite Node SDK provides type safety when working with database documents through generic methods. Methods like `listDocuments`, `getDocument`, and others accept a generic type parameter that allows you to specify your custom model type for full type safety.
-
-**TypeScript:**
-```typescript
-interface Book {
-    name: string;
-    author: string;
-    releaseYear?: string;
-    category?: string;
-    genre?: string[];
-    isCheckedOut: boolean;
-}
-
-const databases = new Databases(client);
-
-try {
-    const documents = await databases.listDocuments<Book>(
-        'your-database-id',
-        'your-collection-id'
-    );
-    
-    documents.documents.forEach(book => {
-        console.log(`Book: ${book.name} by ${book.author}`); // Now you have full type safety
-    });
-} catch (error) {
-    console.error('Appwrite error:', error);
-}
-```
-
-**JavaScript (with JSDoc for type hints):**
 ```javascript
-/**
- * @typedef {Object} Book
- * @property {string} name
- * @property {string} author
- * @property {string} [releaseYear]
- * @property {string} [category]
- * @property {string[]} [genre]
- * @property {boolean} isCheckedOut
- */
+const { Client, Auth } = require('gugotik-sdk');
 
-const databases = new Databases(client);
+const client = new Client();
+
+client
+    .setEndpoint('http://localhost:37000') // Your GuGoTik backend endpoint
+    .setSelfSigned(true); // Use only in dev mode with self-signed SSL cert
+```
+
+### Authentication
+
+#### Register a New User
+
+```javascript
+const { Client, Auth } = require('gugotik-sdk');
+
+const client = new Client()
+    .setEndpoint('http://localhost:37000');
+
+const auth = new Auth(client);
 
 try {
-    /** @type {Models.DocumentList<Book>} */
-    const documents = await databases.listDocuments(
-        'your-database-id',
-        'your-collection-id'
-    );
-    
-    documents.documents.forEach(book => {
-        console.log(`Book: ${book.name} by ${book.author}`); // Type hints available in IDE
-    });
+    const response = await auth.register('username', 'password');
+    console.log('User registered:', response);
+    // Response: { status_code: 0, status_msg: 'success', user_id: 123, token: 'xxx' }
+
+    // Set token for authenticated requests
+    client.setToken(response.token);
 } catch (error) {
-    console.error('Appwrite error:', error);
+    console.error('Registration failed:', error);
 }
 ```
 
-**Tip**: You can use the `appwrite types` command to automatically generate TypeScript interfaces based on your Appwrite database schema. Learn more about [type generation](https://appwrite.io/docs/products/databases/type-generation).
+#### Login
 
-### Error Handling
+```javascript
+const { Client, Auth } = require('gugotik-sdk');
 
-The Appwrite Node SDK raises `AppwriteException` object with `message`, `code` and `response` properties. You can handle any errors by catching `AppwriteException` and present the `message` to the user or handle it yourself based on the provided error information. Below is an example.
+const client = new Client()
+    .setEndpoint('http://localhost:37000');
 
-```js
-let users = new sdk.Users(client);
+const auth = new Auth(client);
 
 try {
-    let res = await users.create(sdk.ID.unique(), "email@example.com", "+123456789", "password", "Walter O'Brien");
-} catch(e) {
-    console.log(e.message);
+    const response = await auth.login('username', 'password');
+    console.log('Login successful:', response);
+    // Response: { status_code: 0, status_msg: 'success', user_id: 123, token: 'xxx' }
+
+    // Set token for authenticated requests
+    client.setToken(response.token);
+} catch (error) {
+    console.error('Login failed:', error);
 }
 ```
 
-### Learn more
-You can use the following resources to learn more and get help
-- 🚀 [Getting Started Tutorial](https://appwrite.io/docs/getting-started-for-server)
-- 📜 [Appwrite Docs](https://appwrite.io/docs)
-- 💬 [Discord Community](https://appwrite.io/discord)
-- 🚂 [Appwrite Node Playground](https://github.com/appwrite/playground-for-node)
+### User Management
 
+```javascript
+const { UserService } = require('gugotik-sdk');
+
+const userService = new UserService(client);
+
+try {
+    const user = await userService.getUser(
+        123,      // userId - User to query
+        456,      // actorId - Current user
+        'token'   // Authentication token
+    );
+    console.log('User info:', user);
+} catch (error) {
+    console.error('Failed to get user:', error);
+}
+```
+
+### Video Feed
+
+```javascript
+const { Feed } = require('gugotik-sdk');
+
+const feed = new Feed(client);
+
+try {
+    const videos = await feed.listVideos(
+        undefined,  // latestTime (optional)
+        123         // actorId (optional)
+    );
+    console.log('Video feed:', videos.video_list);
+} catch (error) {
+    console.error('Failed to get feed:', error);
+}
+```
+
+### Publishing Videos
+
+```javascript
+const { Publish } = require('gugotik-sdk');
+const fs = require('fs');
+
+const publish = new Publish(client);
+
+try {
+    const videoData = fs.readFileSync('video.mp4');
+
+    const response = await publish.publishVideo(
+        123,        // actorId
+        'token',    // Authentication token
+        videoData,  // Video file data
+        'My Video'  // Video title
+    );
+    console.log('Video published:', response);
+} catch (error) {
+    console.error('Failed to publish video:', error);
+}
+```
+
+### Comments
+
+```javascript
+const { CommentService } = require('gugotik-sdk');
+
+const commentService = new CommentService(client);
+
+// Add a comment
+try {
+    const comment = await commentService.addComment(
+        456,              // videoId
+        123,              // actorId
+        'token',          // Authentication token
+        'Great video!'    // Comment text
+    );
+    console.log('Comment added:', comment);
+} catch (error) {
+    console.error('Failed to add comment:', error);
+}
+
+// List comments
+try {
+    const comments = await commentService.listComments(456, 123, 'token');
+    console.log('Comments:', comments.comment_list);
+} catch (error) {
+    console.error('Failed to list comments:', error);
+}
+```
+
+### Favorites
+
+```javascript
+const { Favorite } = require('gugotik-sdk');
+
+const favorite = new Favorite(client);
+
+// Like a video
+try {
+    await favorite.likeVideo(456, 123, 'token');
+    console.log('Video liked');
+} catch (error) {
+    console.error('Failed to like video:', error);
+}
+
+// List favorite videos
+try {
+    const favorites = await favorite.listFavorites(123, 123, 'token');
+    console.log('Favorite videos:', favorites.video_list);
+} catch (error) {
+    console.error('Failed to list favorites:', error);
+}
+```
+
+### Relations (Follow/Unfollow)
+
+```javascript
+const { Relation } = require('gugotik-sdk');
+
+const relation = new Relation(client);
+
+// Follow a user
+try {
+    await relation.follow(789, 123, 'token');
+    console.log('User followed');
+} catch (error) {
+    console.error('Failed to follow user:', error);
+}
+
+// Get followers
+try {
+    const followers = await relation.getFollowerList(123, 123, 'token');
+    console.log('Followers:', followers.user_list);
+} catch (error) {
+    console.error('Failed to get followers:', error);
+}
+
+// Check if following
+try {
+    const isFollowing = await relation.isFollowing(789, 123, 'token');
+    console.log('Is following:', isFollowing.result);
+} catch (error) {
+    console.error('Failed to check follow status:', error);
+}
+```
+
+### Messaging
+
+```javascript
+const { MessageService } = require('gugotik-sdk');
+
+const messageService = new MessageService(client);
+
+// Send a message
+try {
+    await messageService.sendMessage(
+        789,              // toUserId
+        123,              // actorId
+        'token',          // Authentication token
+        'Hello there!'    // Message content
+    );
+    console.log('Message sent');
+} catch (error) {
+    console.error('Failed to send message:', error);
+}
+
+// List messages
+try {
+    const messages = await messageService.listMessages(789, 123, 'token');
+    console.log('Messages:', messages.message_list);
+} catch (error) {
+    console.error('Failed to list messages:', error);
+}
+```
+
+## Error Handling
+
+The SDK raises `AppwriteException` with `message`, `code`, `type`, and `response` properties. Handle errors appropriately:
+
+```javascript
+const { Auth, AppwriteException } = require('gugotik-sdk');
+
+const auth = new Auth(client);
+
+try {
+    const response = await auth.login('username', 'password');
+    console.log('Login successful:', response);
+} catch (error) {
+    if (error instanceof AppwriteException) {
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        console.error('Error response:', error.response);
+    } else {
+        console.error('Unexpected error:', error);
+    }
+}
+```
+
+## TypeScript Support
+
+The SDK is written in TypeScript and includes full type definitions:
+
+```typescript
+import { Client, Auth, Feed, Video, User } from 'gugotik-sdk';
+
+const client = new Client()
+    .setEndpoint('http://localhost:37000');
+
+const auth = new Auth(client);
+const feed = new Feed(client);
+
+// Full type safety
+const loginResponse = await auth.login('username', 'password');
+const videos = await feed.listVideos();
+
+videos.video_list?.forEach((video: Video) => {
+    console.log(`Video: ${video.title} by ${video.author.name}`);
+});
+```
+
+## API Reference
+
+### Services
+
+- **Auth** - User authentication (login, register)
+- **UserService** - User management
+- **Feed** - Video feed
+- **Publish** - Video publishing
+- **CommentService** - Comment management
+- **Favorite** - Like/favorite videos
+- **Relation** - Follow/unfollow users
+- **MessageService** - Direct messaging
+
+For detailed API documentation, see the [GuGoTik Backend Documentation](https://github.com/GuGoTik/backend).
+
+## Learn More
+
+- 📖 [GuGoTik Backend Repository](https://github.com/GuGoTik/backend)
+- 🏗️ [Architecture Documentation](https://github.com/GuGoTik/backend/blob/main/README.md)
+- 🐛 [Report Issues](https://github.com/GuGoTik/backend/issues)
 
 ## Contribution
 
-This library is auto-generated by Appwrite custom [SDK Generator](https://github.com/appwrite/sdk-generator). To learn more about how you can help us improve this SDK, please check the [contribution guide](https://github.com/appwrite/sdk-generator/blob/master/CONTRIBUTING.md) before sending a pull-request.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-Please see the [BSD-3-Clause license](https://raw.githubusercontent.com/appwrite/appwrite/master/LICENSE) file for more information.
+Please see the [BSD-3-Clause license](LICENSE) file for more information.

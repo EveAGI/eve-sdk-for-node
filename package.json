@@ -1,8 +1,8 @@
 {
-  "name": "node-appwrite",
-  "homepage": "https://appwrite.io/support",
-  "description": "Appwrite is an open-source self-hosted backend server that abstract and simplify complex and repetitive development tasks behind a very simple REST API",
-  "version": "20.3.0",
+  "name": "gugotik-sdk",
+  "homepage": "https://github.com/GuGoTik/backend",
+  "description": "GuGoTik Node.js SDK - A TikTok-like video sharing platform backend SDK for Node.js applications",
+  "version": "1.0.0",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "type": "commonjs",
@@ -38,8 +38,18 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/appwrite/sdk-for-node"
+    "url": "https://github.com/GuGoTik/backend"
   },
+  "keywords": [
+    "gugotik",
+    "tiktok",
+    "video",
+    "social",
+    "microservices",
+    "sdk",
+    "nodejs",
+    "typescript"
+  ],
   "devDependencies": {
     "@types/node": "20.11.25",
     "tsup": "7.2.0",

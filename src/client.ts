@@ -33,14 +33,14 @@ class AppwriteException extends Error {
 }
 
 function getUserAgent() {
-    let ua = 'AppwriteNodeJSSDK/20.3.0';
+    let ua = 'GuGoTikNodeJSSDK/1.0.0';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
     if (typeof process !== 'undefined') {
         if (typeof process.platform === 'string') platform.push(process.platform);
         if (typeof process.arch === 'string') platform.push(process.arch);
-    } 
+    }
     if (platform.length > 0) {
         ua += ` (${platform.join('; ')})`;
     }
@@ -69,28 +69,23 @@ class Client {
     static CHUNK_SIZE = 1024 * 1024 * 5;
 
     config = {
-        endpoint: 'https://cloud.appwrite.io/v1',
+        endpoint: 'http://localhost:37000',
         selfSigned: false,
-        project: '',
-        key: '',
-        jwt: '',
-        locale: '',
-        session: '',
-        forwardeduseragent: '',
+        token: '',
     };
     headers: Headers = {
         'x-sdk-name': 'Node.js',
         'x-sdk-platform': 'server',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '20.3.0',
+        'x-sdk-version': '1.0.0',
         'user-agent' : getUserAgent(),
-        'X-Appwrite-Response-Format': '1.8.0',
+        'Content-Type': 'application/json',
     };
 
     /**
      * Set Endpoint
      *
-     * Your project endpoint
+     * Your GuGoTik backend endpoint
      *
      * @param {string} endpoint
      *
@@ -138,71 +133,17 @@ class Client {
     }
 
     /**
-     * Set Project
+     * Set Token
      *
-     * Your project ID
-     *
-     * @param value string
-     *
-     * @return {this}
-     */
-    setProject(value: string): this {
-        this.headers['X-Appwrite-Project'] = value;
-        this.config.project = value;
-        return this;
-    }
-    /**
-     * Set Key
-     *
-     * Your secret API key
+     * Your authentication token
      *
      * @param value string
      *
      * @return {this}
      */
-    setKey(value: string): this {
-        this.headers['X-Appwrite-Key'] = value;
-        this.config.key = value;
-        return this;
-    }
-    /**
-     * Set JWT
-     *
-     * Your secret JSON Web Token
-     *
-     * @param value string
-     *
-     * @return {this}
-     */
-    setJWT(value: string): this {
-        this.headers['X-Appwrite-JWT'] = value;
-        this.config.jwt = value;
-        return this;
-    }
-    /**
-     * Set Locale
-     *
-     * @param value string
-     *
-     * @return {this}
-     */
-    setLocale(value: string): this {
-        this.headers['X-Appwrite-Locale'] = value;
-        this.config.locale = value;
-        return this;
-    }
-    /**
-     * Set Session
-     *
-     * The user session to authenticate with
-     *
-     * @param value string
-     *
-     * @return {this}
-     */
-    setSession(value: string): this {
-        this.headers['X-Appwrite-Session'] = value;
-        this.config.session = value;
+    setToken(value: string): this {
+        this.headers['Authorization'] = `Bearer ${value}`;
+        this.config.token = value;
         return this;
     }
     /**
@@ -216,7 +157,6 @@ class Client {
      */
     setForwardedUserAgent(value: string): this {
         this.headers['X-Forwarded-User-Agent'] = value;
-        this.config.forwardeduseragent = value;
         return this;
     }
 

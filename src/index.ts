@@ -1,4 +1,18 @@
-export { Client, Query, AppwriteException } from './client';
+// GuGoTik SDK Exports
+export { Client, AppwriteException } from './client';
+export type { Payload, UploadProgress } from './client';
+
+// GuGoTik Services
+export { Auth } from './services/auth';
+export { UserService, type User } from './services/user';
+export { Feed, type Video } from './services/feed';
+export { Publish } from './services/publish';
+export { CommentService, type Comment } from './services/comment';
+export { Favorite } from './services/favorite';
+export { Relation } from './services/relation';
+export { MessageService, type Message } from './services/message';
+
+// Legacy Appwrite Services (kept for backward compatibility)
 export { Account } from './services/account';
 export { Avatars } from './services/avatars';
 export { Databases } from './services/databases';
@@ -13,12 +27,17 @@ export { TablesDB } from './services/tables-db';
 export { Teams } from './services/teams';
 export { Tokens } from './services/tokens';
 export { Users } from './services/users';
-export type { Models, Payload, UploadProgress } from './client';
+
+// Utilities
+export type { Models } from './client';
+export { Query } from './client';
 export type { QueryTypes, QueryTypesList } from './query';
 export { Permission } from './permission';
 export { Role } from './role';
 export { ID } from './id';
 export { Operator, Condition } from './operator';
+
+// Enums
 export { AuthenticatorType } from './enums/authenticator-type';
 export { AuthenticationFactor } from './enums/authentication-factor';
 export { OAuthProvider } from './enums/o-auth-provider';
