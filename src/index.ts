@@ -11,6 +11,7 @@ export { CommentService, type Comment } from './services/comment';
 export { Favorite } from './services/favorite';
 export { Relation } from './services/relation';
 export { MessageService, type Message } from './services/message';
+export { GuGoTikStorage } from './services/gugotik-storage';
 
 // Legacy Appwrite Services (kept for backward compatibility)
 export { Account } from './services/account';

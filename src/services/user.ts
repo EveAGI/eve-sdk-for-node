@@ -74,5 +74,65 @@ export class UserService {
             {},
         );
     }
+
+    /**
+     * Update User Profile
+     *
+     * Update user profile information (avatar, background image, signature)
+     *
+     * @param {number} userId - User ID to update
+     * @param {string} token - Authentication token
+     * @param {string} avatar - Optional avatar URL
+     * @param {string} backgroundImage - Optional background image URL
+     * @param {string} signature - Optional user signature/bio
+     * @throws {AppwriteException}
+     * @returns {Promise<{status_code: number, status_msg: string}>}
+     */
+    async updateProfile(
+        userId: number,
+        token: string,
+        avatar?: string,
+        backgroundImage?: string,
+        signature?: string
+    ): Promise<{
+        status_code: number;
+        status_msg: string;
+    }> {
+        if (typeof userId === 'undefined') {
+            throw new AppwriteException('Missing required parameter: "userId"');
+        }
+        if (typeof token === 'undefined') {
+            throw new AppwriteException('Missing required parameter: "token"');
+        }
+
+        const apiPath = '/douyin/user/profile/';
+        const payload: Payload = {};
+
+        payload['user_id'] = userId;
+        payload['token'] = token;
+
+        if (typeof avatar !== 'undefined') {
+            payload['avatar'] = avatar;
+        }
+        if (typeof backgroundImage !== 'undefined') {
+            payload['background_image'] = backgroundImage;
+        }
+        if (typeof signature !== 'undefined') {
+            payload['signature'] = signature;
+        }
+
+        const uri = new URL(this.client.config.endpoint + apiPath);
+
+        const apiHeaders: { [header: string]: string } = {
+            'content-type': 'application/json',
+        };
+
+        return this.client.call(
+            'put',
+            uri,
+            apiHeaders,
+            payload,
+        );
+    }
 }
 

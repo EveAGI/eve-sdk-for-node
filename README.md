@@ -12,13 +12,14 @@ GuGoTik is a microservices-based TikTok-like video sharing platform backend deve
 ## Features
 
 - 🔐 **Authentication** - User login and registration
-- 👤 **User Management** - Get user information and profiles
-- 📹 **Video Feed** - Browse recommended videos
-- 📤 **Publishing** - Upload and publish videos
+- 👤 **User Management** - Get user information, update profiles (avatar, background, signature)
+- 📹 **Video Feed** - Browse recommended videos, get video by ID
+- 📤 **Publishing** - Upload and publish videos, delete videos
 - 💬 **Comments** - Add, delete, list, and count comments
 - ❤️ **Favorites** - Like/unlike videos and manage favorites
 - 👥 **Relations** - Follow/unfollow users, get followers and friends
 - 💌 **Messaging** - Send and receive direct messages
+- 📁 **File Storage** - Upload images directly for avatars and backgrounds
 - 🎯 **TypeScript Support** - Full TypeScript definitions included
 
 ## Installation
@@ -99,6 +100,8 @@ try {
 
 ### User Management
 
+#### Get User Info
+
 ```javascript
 const { UserService } = require('gugotik-sdk');
 
@@ -116,7 +119,30 @@ try {
 }
 ```
 
+#### Update User Profile
+
+```javascript
+const { UserService } = require('gugotik-sdk');
+
+const userService = new UserService(client);
+
+try {
+    const response = await userService.updateProfile(
+        123,                                    // userId
+        'token',                                // Authentication token
+        'https://example.com/avatar.jpg',       // avatar (optional)
+        'https://example.com/background.jpg',   // backgroundImage (optional)
+        'Hello, I am a GuGoTik user!'          // signature (optional)
+    );
+    console.log('Profile updated:', response);
+} catch (error) {
+    console.error('Failed to update profile:', error);
+}
+```
+
 ### Video Feed
+
+#### List Videos
 
 ```javascript
 const { Feed } = require('gugotik-sdk');
@@ -134,7 +160,27 @@ try {
 }
 ```
 
+#### Get Video By ID
+
+```javascript
+const { Feed } = require('gugotik-sdk');
+
+const feed = new Feed(client);
+
+try {
+    const response = await feed.getVideoById(
+        456,    // videoId
+        123     // actorId (optional)
+    );
+    console.log('Video details:', response.video);
+} catch (error) {
+    console.error('Failed to get video:', error);
+}
+```
+
 ### Publishing Videos
+
+#### Publish a Video
 
 ```javascript
 const { Publish } = require('gugotik-sdk');
@@ -154,6 +200,25 @@ try {
     console.log('Video published:', response);
 } catch (error) {
     console.error('Failed to publish video:', error);
+}
+```
+
+#### Delete a Video
+
+```javascript
+const { Publish } = require('gugotik-sdk');
+
+const publish = new Publish(client);
+
+try {
+    const response = await publish.deleteVideo(
+        123,      // actorId (must be video owner)
+        456,      // videoId
+        'token'   // Authentication token
+    );
+    console.log('Video deleted:', response);
+} catch (error) {
+    console.error('Failed to delete video:', error);
 }
 ```
 
@@ -271,6 +336,27 @@ try {
 }
 ```
 
+### File Storage
+
+Upload images directly to GuGoTik storage:
+
+```javascript
+const { GuGoTikStorage } = require('gugotik-sdk');
+const fs = require('fs');
+
+const storage = new GuGoTikStorage(client);
+
+try {
+    const imageData = fs.readFileSync('avatar.jpg');
+
+    const response = await storage.uploadFile(imageData);
+    console.log('File uploaded:', response.file_url);
+    // Use the file_url for user avatar, background image, etc.
+} catch (error) {
+    console.error('Failed to upload file:', error);
+}
+```
+
 ## Error Handling
 
 The SDK raises `AppwriteException` with `message`, `code`, `type`, and `response` properties. Handle errors appropriately:
@@ -321,13 +407,14 @@ videos.video_list?.forEach((video: Video) => {
 ### Services
 
 - **Auth** - User authentication (login, register)
-- **UserService** - User management
-- **Feed** - Video feed
-- **Publish** - Video publishing
+- **UserService** - User management (get user info, update profile)
+- **Feed** - Video feed (list videos, get video by ID)
+- **Publish** - Video publishing (publish video, delete video, list published videos)
 - **CommentService** - Comment management
 - **Favorite** - Like/favorite videos
 - **Relation** - Follow/unfollow users
 - **MessageService** - Direct messaging
+- **GuGoTikStorage** - File storage (upload images)
 
 For detailed API documentation, see the [GuGoTik Backend Documentation](https://github.com/GuGoTik/backend).
 

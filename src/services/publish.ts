@@ -106,5 +106,52 @@ export class Publish {
             {},
         );
     }
+
+    /**
+     * Delete Video
+     *
+     * Delete a video by its ID (owner only)
+     *
+     * @param {number} actorId - Current user ID (must be video owner)
+     * @param {number} videoId - Video ID to delete
+     * @param {string} token - Authentication token
+     * @throws {AppwriteException}
+     * @returns {Promise<{status_code: number, status_msg: string}>}
+     */
+    async deleteVideo(actorId: number, videoId: number, token: string): Promise<{
+        status_code: number;
+        status_msg: string;
+    }> {
+        if (typeof actorId === 'undefined') {
+            throw new AppwriteException('Missing required parameter: "actorId"');
+        }
+        if (typeof videoId === 'undefined') {
+            throw new AppwriteException('Missing required parameter: "videoId"');
+        }
+        if (typeof token === 'undefined') {
+            throw new AppwriteException('Missing required parameter: "token"');
+        }
+
+        const apiPath = '/douyin/publish/action/';
+        const payload: Payload = {};
+
+        payload['actor_id'] = actorId;
+        payload['video_id'] = videoId;
+        payload['token'] = token;
+
+        const uri = new URL(this.client.config.endpoint + apiPath);
+        Object.keys(payload).forEach(key => uri.searchParams.append(key, payload[key]));
+
+        const apiHeaders: { [header: string]: string } = {
+            'content-type': 'application/json',
+        };
+
+        return this.client.call(
+            'delete',
+            uri,
+            apiHeaders,
+            {},
+        );
+    }
 }
 

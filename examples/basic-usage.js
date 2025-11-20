@@ -5,7 +5,7 @@
  * to interact with the GuGoTik backend API.
  */
 
-const { Client, Auth, UserService, Feed, Publish, CommentService, Favorite, Relation, MessageService } = require('../dist/index.js');
+const { Client, Auth, UserService, Feed, Publish, CommentService, Favorite, Relation, MessageService, GuGoTikStorage } = require('../dist/index.js');
 
 // Initialize the client
 const client = new Client();
@@ -113,12 +113,64 @@ async function followUser(userId, actorId, token) {
 // Example 8: Send a Message
 async function sendMessage(toUserId, actorId, token, content) {
     const messageService = new MessageService(client);
-    
+
     try {
         await messageService.sendMessage(toUserId, actorId, token, content);
         console.log('✅ Message sent successfully');
     } catch (error) {
         console.error('❌ Failed to send message:', error.message);
+    }
+}
+
+// Example 9: Update User Profile
+async function updateUserProfile(userId, token, avatar, backgroundImage, signature) {
+    const userService = new UserService(client);
+
+    try {
+        const response = await userService.updateProfile(userId, token, avatar, backgroundImage, signature);
+        console.log('✅ Profile updated successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('❌ Failed to update profile:', error.message);
+    }
+}
+
+// Example 10: Get Video By ID
+async function getVideoById(videoId, actorId) {
+    const feed = new Feed(client);
+
+    try {
+        const response = await feed.getVideoById(videoId, actorId);
+        console.log('✅ Video retrieved:', response.video);
+        return response;
+    } catch (error) {
+        console.error('❌ Failed to get video:', error.message);
+    }
+}
+
+// Example 11: Delete Video
+async function deleteVideo(actorId, videoId, token) {
+    const publish = new Publish(client);
+
+    try {
+        const response = await publish.deleteVideo(actorId, videoId, token);
+        console.log('✅ Video deleted successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('❌ Failed to delete video:', error.message);
+    }
+}
+
+// Example 12: Upload File (Image)
+async function uploadFile(fileBuffer) {
+    const storage = new GuGoTikStorage(client);
+
+    try {
+        const response = await storage.uploadFile(fileBuffer);
+        console.log('✅ File uploaded successfully:', response.file_url);
+        return response;
+    } catch (error) {
+        console.error('❌ Failed to upload file:', error.message);
     }
 }
 
@@ -157,6 +209,10 @@ module.exports = {
     likeVideo,
     addComment,
     followUser,
-    sendMessage
+    sendMessage,
+    updateUserProfile,
+    getVideoById,
+    deleteVideo,
+    uploadFile
 };
 
