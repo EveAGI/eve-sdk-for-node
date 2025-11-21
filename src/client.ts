@@ -74,10 +74,10 @@ class Client {
         token: '',
     };
     headers: Headers = {
-        'x-sdk-name': 'Node.js',
-        'x-sdk-platform': 'server',
-        'x-sdk-language': 'nodejs',
-        'x-sdk-version': '1.0.0',
+        // 'x-sdk-name': 'Node.js',
+        // 'x-sdk-platform': 'server',
+        // 'x-sdk-language': 'nodejs',
+        // 'x-sdk-version': '1.0.0',
         'user-agent' : getUserAgent(),
         'Content-Type': 'application/json',
     };
