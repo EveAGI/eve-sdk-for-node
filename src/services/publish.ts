@@ -46,13 +46,8 @@ export class Publish {
         }
 
         const apiPath = '/douyin/publish/action/';
-        const payload: Payload = {};
 
-        payload['actor_id'] = actorId;
-        payload['token'] = token;
-        payload['title'] = title;
-
-        // Convert Buffer or Blob to File for chunked upload support
+        // Convert Buffer or Blob to File for FormData
         let fileData: File;
         if (data instanceof File) {
             fileData = data;
@@ -67,9 +62,15 @@ export class Publish {
             throw new AppwriteException('Invalid data type. Expected Buffer, Blob, or File');
         }
 
-        payload['data'] = fileData;
-
+        // Build URL with query parameters (token and actor_id go in query string)
         const uri = new URL(this.client.config.endpoint + apiPath);
+        uri.searchParams.append('token', token);
+        uri.searchParams.append('actor_id', actorId.toString());
+
+        // Build FormData payload (title and data go in form body)
+        const payload: Payload = {};
+        payload['title'] = title;
+        payload['data'] = fileData;
 
         const apiHeaders: { [header: string]: string } = {
             'content-type': 'multipart/form-data',

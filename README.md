@@ -182,6 +182,8 @@ try {
 
 #### Publish a Video
 
+The SDK uses **multipart/form-data** (FormData) to upload videos to the backend. The video file and title are sent in the form body, while authentication parameters (token and actor_id) are sent as query parameters.
+
 ```javascript
 const { Publish } = require('gugotik-sdk');
 const fs = require('fs');
@@ -194,7 +196,7 @@ try {
     const response = await publish.publishVideo(
         123,        // actorId
         'token',    // Authentication token
-        videoData,  // Video file data
+        videoData,  // Video file data (Buffer, Blob, or File)
         'My Video'  // Video title
     );
     console.log('Video published:', response);
@@ -202,6 +204,12 @@ try {
     console.error('Failed to publish video:', error);
 }
 ```
+
+**How it works:**
+- The SDK automatically converts Buffer/Blob to File for FormData compatibility
+- Query parameters: `token`, `actor_id`
+- Form body fields: `data` (video file), `title` (video title)
+- Content-Type: `multipart/form-data` (automatically set by the SDK)
 
 #### Publish a Video with Chunked Upload and Progress Tracking
 
@@ -235,10 +243,12 @@ try {
 ```
 
 **Features:**
+- Uses **FormData** for multipart/form-data uploads
 - Automatic chunked upload for files larger than 5MB (configurable via `Client.CHUNK_SIZE`)
 - Progress tracking with detailed upload statistics
 - Supports Buffer, Blob, and File types
 - Automatic retry and resume capability through chunk-based uploads
+- Query parameters and form body fields are properly separated
 
 #### Delete a Video
 
