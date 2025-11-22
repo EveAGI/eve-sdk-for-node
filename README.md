@@ -203,6 +203,43 @@ try {
 }
 ```
 
+#### Publish a Video with Chunked Upload and Progress Tracking
+
+For large video files (>5MB), the SDK automatically uses chunked upload. You can also track upload progress:
+
+```javascript
+const { Publish } = require('gugotik-sdk');
+const fs = require('fs');
+
+const publish = new Publish(client);
+
+try {
+    const videoData = fs.readFileSync('large-video.mp4');
+
+    const response = await publish.publishVideo(
+        123,        // actorId
+        'token',    // Authentication token
+        videoData,  // Video file data
+        'My Video', // Video title
+        (progress) => {
+            // Progress callback
+            console.log(`Upload progress: ${progress.progress}%`);
+            console.log(`Uploaded: ${progress.sizeUploaded} bytes`);
+            console.log(`Chunks: ${progress.chunksUploaded}/${progress.chunksTotal}`);
+        }
+    );
+    console.log('Video published:', response);
+} catch (error) {
+    console.error('Failed to publish video:', error);
+}
+```
+
+**Features:**
+- Automatic chunked upload for files larger than 5MB (configurable via `Client.CHUNK_SIZE`)
+- Progress tracking with detailed upload statistics
+- Supports Buffer, Blob, and File types
+- Automatic retry and resume capability through chunk-based uploads
+
 #### Delete a Video
 
 ```javascript

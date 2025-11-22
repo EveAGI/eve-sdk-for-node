@@ -148,7 +148,33 @@ async function getVideoById(videoId, actorId) {
     }
 }
 
-// Example 11: Delete Video
+// Example 11: Publish Video with Chunked Upload
+async function publishVideo(actorId, token, videoPath, title) {
+    const publish = new Publish(client);
+
+    try {
+        const videoData = fs.readFileSync(videoPath);
+
+        const response = await publish.publishVideo(
+            actorId,
+            token,
+            videoData,
+            title,
+            (progress) => {
+                // Progress callback for chunked uploads
+                console.log(`📤 Upload progress: ${progress.progress}%`);
+                console.log(`   Uploaded: ${(progress.sizeUploaded / 1024 / 1024).toFixed(2)} MB`);
+                console.log(`   Chunks: ${progress.chunksUploaded}/${progress.chunksTotal}`);
+            }
+        );
+        console.log('✅ Video published successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('❌ Failed to publish video:', error.message);
+    }
+}
+
+// Example 12: Delete Video
 async function deleteVideo(actorId, videoId, token) {
     const publish = new Publish(client);
 
@@ -161,7 +187,7 @@ async function deleteVideo(actorId, videoId, token) {
     }
 }
 
-// Example 12: Upload File (Image)
+// Example 13: Upload File (Image)
 async function uploadFile(fileBuffer) {
     const storage = new GuGoTikStorage(client);
 

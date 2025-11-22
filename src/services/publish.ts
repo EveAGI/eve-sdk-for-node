@@ -1,5 +1,6 @@
-import { AppwriteException, Client, type Payload } from '../client';
+import { AppwriteException, Client, type Payload, type UploadProgress } from '../client';
 import { Video } from './feed';
+import { FormData, File } from 'node-fetch-native-with-agent';
 
 export class Publish {
     client: Client;
@@ -11,16 +12,23 @@ export class Publish {
     /**
      * Publish Video
      *
-     * Upload and publish a new video
+     * Upload and publish a new video with support for chunked uploads
      *
      * @param {number} actorId - Current user ID
      * @param {string} token - Authentication token
-     * @param {Buffer | Blob} data - Video file data
+     * @param {Buffer | Blob | File} data - Video file data
      * @param {string} title - Video title
+     * @param {(progress: UploadProgress) => void} onProgress - Optional callback for upload progress
      * @throws {AppwriteException}
      * @returns {Promise<{status_code: number, status_msg: string}>}
      */
-    async publishVideo(actorId: number, token: string, data: Buffer | Blob, title: string): Promise<{
+    async publishVideo(
+        actorId: number,
+        token: string,
+        data: Buffer | Blob | File,
+        title: string,
+        onProgress?: (progress: UploadProgress) => void
+    ): Promise<{
         status_code: number;
         status_msg: string;
     }> {
@@ -43,7 +51,23 @@ export class Publish {
         payload['actor_id'] = actorId;
         payload['token'] = token;
         payload['title'] = title;
-        payload['data'] = data;
+
+        // Convert Buffer or Blob to File for chunked upload support
+        let fileData: File;
+        if (data instanceof File) {
+            fileData = data;
+        } else if (data instanceof Blob) {
+            fileData = new File([data], 'video.mp4', { type: 'video/mp4' });
+        } else if (Buffer.isBuffer(data)) {
+            // Convert Buffer to Uint8Array for Blob compatibility
+            const uint8Array = new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+            const blob = new Blob([uint8Array], { type: 'video/mp4' });
+            fileData = new File([blob], 'video.mp4', { type: 'video/mp4' });
+        } else {
+            throw new AppwriteException('Invalid data type. Expected Buffer, Blob, or File');
+        }
+
+        payload['data'] = fileData;
 
         const uri = new URL(this.client.config.endpoint + apiPath);
 
@@ -51,6 +75,18 @@ export class Publish {
             'content-type': 'multipart/form-data',
         };
 
+        // Use chunkedUpload if file is large or if progress callback is provided
+        if (fileData.size > Client.CHUNK_SIZE || onProgress) {
+            return this.client.chunkedUpload(
+                'post',
+                uri,
+                apiHeaders,
+                payload,
+                onProgress || (() => {})
+            );
+        }
+
+        // For small files, use regular upload
         return this.client.call(
             'post',
             uri,
