@@ -235,15 +235,18 @@ class Client {
 
             if (onProgress && typeof onProgress === 'function') {
                 onProgress({
-                    $id: response.$id,
+                    $id: response.upload_id || response.$id,
                     progress: Math.round((end / file.size) * 100),
                     sizeUploaded: end,
-                    chunksTotal: Math.ceil(file.size / Client.CHUNK_SIZE),
-                    chunksUploaded: Math.ceil(end / Client.CHUNK_SIZE)
+                    chunksTotal: response.chunks_total || Math.ceil(file.size / Client.CHUNK_SIZE),
+                    chunksUploaded: response.chunks_uploaded || Math.ceil(end / Client.CHUNK_SIZE)
                 });
             }
 
-            if (response && response.$id) {
+            // Support both GuGoTik (upload_id) and Appwrite ($id) formats
+            if (response && response.upload_id) {
+                headers['X-Upload-Id'] = response.upload_id;
+            } else if (response && response.$id) {
                 headers['x-appwrite-id'] = response.$id;
             }
 

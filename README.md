@@ -245,10 +245,20 @@ try {
 **Features:**
 - Uses **FormData** for multipart/form-data uploads
 - Automatic chunked upload for files larger than 5MB (configurable via `Client.CHUNK_SIZE`)
-- Progress tracking with detailed upload statistics
+- Backend support for chunked uploads with Redis-based temporary storage
+- Progress tracking with detailed upload statistics from both client and server
 - Supports Buffer, Blob, and File types
 - Automatic retry and resume capability through chunk-based uploads
 - Query parameters and form body fields are properly separated
+- Server returns `upload_id`, `chunks_total`, and `chunks_uploaded` for progress tracking
+
+**How Chunked Upload Works:**
+1. SDK splits large files into 5MB chunks
+2. Each chunk is sent with a `Content-Range` header (e.g., `bytes 0-5242879/10485760`)
+3. Backend stores chunks temporarily in Redis with 1-hour expiration
+4. Backend tracks upload progress and returns `upload_id` for subsequent chunks
+5. When all chunks are received, backend assembles them and creates the video
+6. Chunks are automatically cleaned up from Redis after successful assembly
 
 #### Delete a Video
 
