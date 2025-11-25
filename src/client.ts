@@ -72,6 +72,7 @@ class Client {
         endpoint: 'http://localhost:37000',
         selfSigned: false,
         token: '',
+        timeout: 600000, // 10 minutes default timeout for large video uploads
     };
     headers: Headers = {
         // 'x-sdk-name': 'Node.js',
@@ -79,7 +80,7 @@ class Client {
         // 'x-sdk-language': 'nodejs',
         // 'x-sdk-version': '1.0.0',
         'user-agent' : getUserAgent(),
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
     };
 
     /**
@@ -97,6 +98,20 @@ class Client {
         }
 
         this.config.endpoint = endpoint;
+        return this;
+    }
+
+    /**
+     * Set Timeout
+     *
+     * Set the timeout for API requests in milliseconds
+     *
+     * @param {number} timeout - Timeout in milliseconds
+     *
+     * @returns {this}
+     */
+    setTimeout(timeout: number): this {
+        this.config.timeout = timeout;
         return this;
     }
 
@@ -142,7 +157,7 @@ class Client {
      * @return {this}
      */
     setToken(value: string): this {
-        this.headers['Authorization'] = `Bearer ${value}`;
+        // this.headers['Authorization'] = `Bearer ${value}`;
         this.config.token = value;
         return this;
     }
@@ -197,6 +212,10 @@ class Client {
                     }
 
                     options.body = formData;
+                    // Do NOT set Content-Type header manually when using FormData
+                    // The 'form-data' package (or native FormData) will automatically set it
+                    // along with the boundary.                    
+                    // headers['content-type'] = 'multipart/form-data';
                     delete headers['content-type'];
                     break;
             }
@@ -280,34 +299,51 @@ class Client {
 
         let data: any = null;
 
-        const response = await fetch(uri, options);
+        // Create an AbortController for timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
-        const warnings = response.headers.get('x-appwrite-warning');
-        if (warnings) {
-            warnings.split(';').forEach((warning: string) => console.warn('Warning: ' + warning));
-        }
+        try {
+            const response = await fetch(uri, {
+                ...options,
+                signal: controller.signal
+            });
 
-        if (response.headers.get('content-type')?.includes('application/json')) {
-            data = await response.json();
-        } else if (responseType === 'arrayBuffer') {
-            data = await response.arrayBuffer();
-        } else {
-            data = {
-                message: await response.text()
-            };
-        }
+            clearTimeout(timeoutId);
 
-        if (400 <= response.status) {
-            let responseText = '';
-            if (response.headers.get('content-type')?.includes('application/json') || responseType === 'arrayBuffer') {
-                responseText = JSON.stringify(data);
-            } else {
-                responseText = data?.message;
+            const warnings = response.headers.get('x-appwrite-warning');
+            if (warnings) {
+                warnings.split(';').forEach((warning: string) => console.warn('Warning: ' + warning));
             }
-            throw new AppwriteException(data?.message, response.status, data?.type, responseText);
-        }
 
-        return data;
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                data = await response.json();
+            } else if (responseType === 'arrayBuffer') {
+                data = await response.arrayBuffer();
+            } else {
+                data = {
+                    message: await response.text()
+                };
+            }
+
+            if (400 <= response.status) {
+                let responseText = '';
+                if (response.headers.get('content-type')?.includes('application/json') || responseType === 'arrayBuffer') {
+                    responseText = JSON.stringify(data);
+                } else {
+                    responseText = data?.message;
+                }
+                throw new AppwriteException(data?.message, response.status, data?.type, responseText);
+            }
+
+            return data;
+        } catch (error: any) {
+            clearTimeout(timeoutId);
+            if (error.name === 'AbortError') {
+                throw new AppwriteException(`Request timeout after ${this.config.timeout}ms`, 408, 'timeout_error');
+            }
+            throw error;
+        }
     }
 
     static flatten(data: Payload, prefix = ''): Payload {

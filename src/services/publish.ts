@@ -62,15 +62,15 @@ export class Publish {
             throw new AppwriteException('Invalid data type. Expected Buffer, Blob, or File');
         }
 
-        // Build URL with query parameters (token and actor_id go in query string)
+        // Build URL with query parameters (actor_id goes in query string)
         const uri = new URL(this.client.config.endpoint + apiPath);
-        uri.searchParams.append('token', token);
-        uri.searchParams.append('actor_id', actorId.toString());
+        // uri.searchParams.append('actor_id', actorId.toString());
 
-        // Build FormData payload (title and data go in form body)
+        // Build FormData payload (data, token and title go in form body)
         const payload: Payload = {};
-        payload['title'] = title;
         payload['data'] = fileData;
+        payload['token'] = token;
+        payload['title'] = title;
 
         const apiHeaders: { [header: string]: string } = {
             'content-type': 'multipart/form-data',
