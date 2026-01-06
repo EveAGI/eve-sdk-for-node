@@ -33,7 +33,7 @@ class AppwriteException extends Error {
 }
 
 function getUserAgent() {
-    let ua = 'GuGoTikNodeJSSDK/1.0.0';
+    let ua = 'EveNodeJSSDK/0.0.1';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -78,7 +78,7 @@ class Client {
         // 'x-sdk-name': 'Node.js',
         // 'x-sdk-platform': 'server',
         // 'x-sdk-language': 'nodejs',
-        // 'x-sdk-version': '1.0.0',
+        // 'x-sdk-version': '0.0.1',
         'user-agent' : getUserAgent(),
         // 'Content-Type': 'application/json',
     };
@@ -86,7 +86,7 @@ class Client {
     /**
      * Set Endpoint
      *
-     * Your GuGoTik backend endpoint
+     * Your Eve AI API endpoint
      *
      * @param {string} endpoint
      *
@@ -262,7 +262,7 @@ class Client {
                 });
             }
 
-            // Support both GuGoTik (upload_id) and Appwrite ($id) formats
+            // Support both Eve AI (upload_id) and Appwrite ($id) formats
             if (response && response.upload_id) {
                 headers['X-Upload-Id'] = response.upload_id;
             } else if (response && response.$id) {
