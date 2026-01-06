@@ -1,13 +1,13 @@
-# GuGoTik Node.js SDK
+# Eve.AI Node.js SDK
 
 ![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg?style=flat-square)
 ![Version](https://img.shields.io/badge/version-1.0.0-green.svg?style=flat-square)
 
-**Official Node.js SDK for GuGoTik - A TikTok-like Video Sharing Platform**
+**Official Node.js SDK for Eve.AI - Artificial General Intelligence Platform**
 
-> This is the Node.js SDK for integrating with GuGoTik backend from your Node.js server-side code.
+> This is the Node.js SDK for integrating with Eve.AI backend from your Node.js server-side code.
 
-GuGoTik is a microservices-based TikTok-like video sharing platform backend developed in Go. This SDK provides a simple and intuitive interface to interact with all GuGoTik backend APIs including authentication, user management, video feed, publishing, comments, favorites, relations, and messaging.
+Eve.AI is an Artificial General Intelligence Platform backend developed in Go, Python, JavaScript, and other languages. This SDK provides a simple and intuitive interface to interact with all Eve.AI backend APIs including authentication, user management, video feed, publishing, comments, favorites, relations, and messaging.
 
 ## Features
 
@@ -27,28 +27,28 @@ GuGoTik is a microservices-based TikTok-like video sharing platform backend deve
 To install via [NPM](https://www.npmjs.com/):
 
 ```bash
-npm install gugotik-sdk --save
+npm install eve-sdk-for-node --save
 ```
 
 Or with Yarn:
 
 ```bash
-yarn add gugotik-sdk
+yarn add eve-sdk-for-node
 ```
 
 ## Getting Started
 
 ### Initialize the SDK
 
-Initialize your SDK with your GuGoTik backend endpoint (default: `http://localhost:37000`):
+Initialize your SDK with your Eve.AI backend endpoint (default: `http://api.eve.ai`):
 
 ```javascript
-const { Client, Auth } = require('gugotik-sdk');
+const { Client, Auth } = require('eve-sdk-for-node');
 
 const client = new Client();
 
 client
-    .setEndpoint('http://localhost:37000') // Your GuGoTik backend endpoint
+    .setEndpoint('https://api.eve.ai') // Your Eve.AI backend endpoint
     .setSelfSigned(true); // Use only in dev mode with self-signed SSL cert
 ```
 
@@ -57,10 +57,10 @@ client
 #### Register a New User
 
 ```javascript
-const { Client, Auth } = require('gugotik-sdk');
+const { Client, Auth } = require('eve-sdk-for-node');
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai');
 
 const auth = new Auth(client);
 
@@ -79,10 +79,10 @@ try {
 #### Login
 
 ```javascript
-const { Client, Auth } = require('gugotik-sdk');
+const { Client, Auth } = require('eve-sdk-for-node');
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai');
 
 const auth = new Auth(client);
 
@@ -103,7 +103,7 @@ try {
 #### Get User Info
 
 ```javascript
-const { UserService } = require('gugotik-sdk');
+const { UserService } = require('eve-sdk-for-node');
 
 const userService = new UserService(client);
 
@@ -122,7 +122,7 @@ try {
 #### Update User Profile
 
 ```javascript
-const { UserService } = require('gugotik-sdk');
+const { UserService } = require('eve-sdk-for-node');
 
 const userService = new UserService(client);
 
@@ -132,7 +132,7 @@ try {
         'token',                                // Authentication token
         'https://example.com/avatar.jpg',       // avatar (optional)
         'https://example.com/background.jpg',   // backgroundImage (optional)
-        'Hello, I am a GuGoTik user!'          // signature (optional)
+        'Hello, I am a Eve.AI user!'          // signature (optional)
     );
     console.log('Profile updated:', response);
 } catch (error) {
@@ -145,7 +145,7 @@ try {
 #### List Videos
 
 ```javascript
-const { Feed } = require('gugotik-sdk');
+const { Feed } = require('eve-sdk-for-node');
 
 const feed = new Feed(client);
 
@@ -163,7 +163,7 @@ try {
 #### Get Video By ID
 
 ```javascript
-const { Feed } = require('gugotik-sdk');
+const { Feed } = require('eve-sdk-for-node');
 
 const feed = new Feed(client);
 
@@ -185,7 +185,7 @@ try {
 The SDK uses **multipart/form-data** (FormData) to upload videos to the backend. The video file and title are sent in the form body, while authentication parameters (token and actor_id) are sent as query parameters.
 
 ```javascript
-const { Publish } = require('gugotik-sdk');
+const { Publish } = require('eve-sdk-for-node');
 const fs = require('fs');
 
 const publish = new Publish(client);
@@ -216,7 +216,7 @@ try {
 For large video files (>5MB), the SDK automatically uses chunked upload. You can also track upload progress:
 
 ```javascript
-const { Publish } = require('gugotik-sdk');
+const { Publish } = require('eve-sdk-for-node');
 const fs = require('fs');
 
 const publish = new Publish(client);
@@ -263,7 +263,7 @@ try {
 #### Delete a Video
 
 ```javascript
-const { Publish } = require('gugotik-sdk');
+const { Publish } = require('eve-sdk-for-node');
 
 const publish = new Publish(client);
 
@@ -282,7 +282,7 @@ try {
 ### Comments
 
 ```javascript
-const { CommentService } = require('gugotik-sdk');
+const { CommentService } = require('eve-sdk-for-node');
 
 const commentService = new CommentService(client);
 
@@ -311,7 +311,7 @@ try {
 ### Favorites
 
 ```javascript
-const { Favorite } = require('gugotik-sdk');
+const { Favorite } = require('eve-sdk-for-node');
 
 const favorite = new Favorite(client);
 
@@ -335,7 +335,7 @@ try {
 ### Relations (Follow/Unfollow)
 
 ```javascript
-const { Relation } = require('gugotik-sdk');
+const { Relation } = require('eve-sdk-for-node');
 
 const relation = new Relation(client);
 
@@ -367,7 +367,7 @@ try {
 ### Messaging
 
 ```javascript
-const { MessageService } = require('gugotik-sdk');
+const { MessageService } = require('eve-sdk-for-node');
 
 const messageService = new MessageService(client);
 
@@ -395,10 +395,10 @@ try {
 
 ### File Storage
 
-Upload images directly to GuGoTik storage:
+Upload images directly to Eve.AI storage:
 
 ```javascript
-const { GuGoTikStorage } = require('gugotik-sdk');
+const { GuGoTikStorage } = require('eve-sdk-for-node');
 const fs = require('fs');
 
 const storage = new GuGoTikStorage(client);
@@ -419,7 +419,7 @@ try {
 The SDK raises `AppwriteException` with `message`, `code`, `type`, and `response` properties. Handle errors appropriately:
 
 ```javascript
-const { Auth, AppwriteException } = require('gugotik-sdk');
+const { Auth, AppwriteException } = require('eve-sdk-for-node');
 
 const auth = new Auth(client);
 
@@ -442,10 +442,10 @@ try {
 The SDK is written in TypeScript and includes full type definitions:
 
 ```typescript
-import { Client, Auth, Feed, Video, User } from 'gugotik-sdk';
+import { Client, Auth, Feed, Video, User } from 'eve-sdk-for-node';
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai');
 
 const auth = new Auth(client);
 const feed = new Feed(client);
@@ -473,13 +473,13 @@ videos.video_list?.forEach((video: Video) => {
 - **MessageService** - Direct messaging
 - **GuGoTikStorage** - File storage (upload images)
 
-For detailed API documentation, see the [GuGoTik Backend Documentation](https://github.com/GuGoTik/backend).
+For detailed API documentation, see the [Eve.AI Backend Documentation](https://github.com/EveAGI/backend).
 
 ## Learn More
 
-- 📖 [GuGoTik Backend Repository](https://github.com/GuGoTik/backend)
-- 🏗️ [Architecture Documentation](https://github.com/GuGoTik/backend/blob/main/README.md)
-- 🐛 [Report Issues](https://github.com/GuGoTik/backend/issues)
+- 📖 [Eve.AI SDK for Node.js Repository](https://github.com/EveAGI/sdk-for-node)
+- 🏗️ [Architecture Documentation](https://github.com/EveAGI/backend/blob/main/README.md)
+- 🐛 [Report Issues](https://github.com/EveAGI/backend/issues)
 
 ## Contribution
 
