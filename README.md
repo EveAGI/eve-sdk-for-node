@@ -477,7 +477,7 @@ For detailed API documentation, see the [Eve.AI Backend Documentation](https://g
 
 ## Learn More
 
-- 📖 [Eve.AI SDK for Node.js Repository](https://github.com/EveAGI/sdk-for-node)
+- 📖 [Eve.AI SDK for Node.js Repository](https://github.com/EveAGI/eve-sdk-for-node)
 - 🏗️ [Architecture Documentation](https://github.com/EveAGI/backend/blob/main/README.md)
 - 🐛 [Report Issues](https://github.com/EveAGI/backend/issues)
 
