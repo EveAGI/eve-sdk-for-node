@@ -38,7 +38,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EveAGI/eve-sdk-for-node"
+    "url": "git+https://github.com/EveAGI/eve-sdk-for-node.git"
   },
   "keywords": [
     "eve",
