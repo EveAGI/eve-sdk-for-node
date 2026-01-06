@@ -27,13 +27,13 @@ Eve.AI is an Artificial General Intelligence Platform backend developed in Go, P
 To install via [NPM](https://www.npmjs.com/):
 
 ```bash
-npm install eve-sdk-for-node --save
+npm install @eveai/eve-sdk-for-node --save
 ```
 
 Or with Yarn:
 
 ```bash
-yarn add eve-sdk-for-node
+yarn add @eveai/eve-sdk-for-node
 ```
 
 ## Getting Started
@@ -43,7 +43,7 @@ yarn add eve-sdk-for-node
 Initialize your SDK with your Eve.AI backend endpoint (default: `http://api.eve.ai`):
 
 ```javascript
-const { Client, Auth } = require('eve-sdk-for-node');
+const { Client, Auth } = require('@eveai/eve-sdk-for-node');
 
 const client = new Client();
 
@@ -57,7 +57,7 @@ client
 #### Register a New User
 
 ```javascript
-const { Client, Auth } = require('eve-sdk-for-node');
+const { Client, Auth } = require('@eveai/eve-sdk-for-node');
 
 const client = new Client()
     .setEndpoint('https://api.eve.ai');
@@ -79,7 +79,7 @@ try {
 #### Login
 
 ```javascript
-const { Client, Auth } = require('eve-sdk-for-node');
+const { Client, Auth } = require('@eveai/eve-sdk-for-node');
 
 const client = new Client()
     .setEndpoint('https://api.eve.ai');
@@ -103,7 +103,7 @@ try {
 #### Get User Info
 
 ```javascript
-const { UserService } = require('eve-sdk-for-node');
+const { UserService } = require('@eveai/eve-sdk-for-node');
 
 const userService = new UserService(client);
 
@@ -122,7 +122,7 @@ try {
 #### Update User Profile
 
 ```javascript
-const { UserService } = require('eve-sdk-for-node');
+const { UserService } = require('@eveai/eve-sdk-for-node');
 
 const userService = new UserService(client);
 
@@ -145,7 +145,7 @@ try {
 #### List Videos
 
 ```javascript
-const { Feed } = require('eve-sdk-for-node');
+const { Feed } = require('@eveai/eve-sdk-for-node');
 
 const feed = new Feed(client);
 
@@ -163,7 +163,7 @@ try {
 #### Get Video By ID
 
 ```javascript
-const { Feed } = require('eve-sdk-for-node');
+const { Feed } = require('@eveai/eve-sdk-for-node');
 
 const feed = new Feed(client);
 
@@ -185,7 +185,7 @@ try {
 The SDK uses **multipart/form-data** (FormData) to upload videos to the backend. The video file and title are sent in the form body, while authentication parameters (token and actor_id) are sent as query parameters.
 
 ```javascript
-const { Publish } = require('eve-sdk-for-node');
+const { Publish } = require('@eveai/eve-sdk-for-node');
 const fs = require('fs');
 
 const publish = new Publish(client);
@@ -216,7 +216,7 @@ try {
 For large video files (>5MB), the SDK automatically uses chunked upload. You can also track upload progress:
 
 ```javascript
-const { Publish } = require('eve-sdk-for-node');
+const { Publish } = require('@eveai/eve-sdk-for-node');
 const fs = require('fs');
 
 const publish = new Publish(client);
@@ -263,7 +263,7 @@ try {
 #### Delete a Video
 
 ```javascript
-const { Publish } = require('eve-sdk-for-node');
+const { Publish } = require('@eveai/eve-sdk-for-node');
 
 const publish = new Publish(client);
 
@@ -282,7 +282,7 @@ try {
 ### Comments
 
 ```javascript
-const { CommentService } = require('eve-sdk-for-node');
+const { CommentService } = require('@eveai/eve-sdk-for-node');
 
 const commentService = new CommentService(client);
 
@@ -311,7 +311,7 @@ try {
 ### Favorites
 
 ```javascript
-const { Favorite } = require('eve-sdk-for-node');
+const { Favorite } = require('@eveai/eve-sdk-for-node');
 
 const favorite = new Favorite(client);
 
@@ -335,7 +335,7 @@ try {
 ### Relations (Follow/Unfollow)
 
 ```javascript
-const { Relation } = require('eve-sdk-for-node');
+const { Relation } = require('@eveai/eve-sdk-for-node');
 
 const relation = new Relation(client);
 
@@ -367,7 +367,7 @@ try {
 ### Messaging
 
 ```javascript
-const { MessageService } = require('eve-sdk-for-node');
+const { MessageService } = require('@eveai/eve-sdk-for-node');
 
 const messageService = new MessageService(client);
 
@@ -398,7 +398,7 @@ try {
 Upload images directly to Eve.AI storage:
 
 ```javascript
-const { GuGoTikStorage } = require('eve-sdk-for-node');
+const { GuGoTikStorage } = require('@eveai/eve-sdk-for-node');
 const fs = require('fs');
 
 const storage = new GuGoTikStorage(client);
@@ -419,7 +419,7 @@ try {
 The SDK raises `AppwriteException` with `message`, `code`, `type`, and `response` properties. Handle errors appropriately:
 
 ```javascript
-const { Auth, AppwriteException } = require('eve-sdk-for-node');
+const { Auth, AppwriteException } = require('@eveai/eve-sdk-for-node');
 
 const auth = new Auth(client);
 
@@ -442,7 +442,7 @@ try {
 The SDK is written in TypeScript and includes full type definitions:
 
 ```typescript
-import { Client, Auth, Feed, Video, User } from 'eve-sdk-for-node';
+import { Client, Auth, Feed, Video, User } from '@eveai/eve-sdk-for-node';
 
 const client = new Client()
     .setEndpoint('https://api.eve.ai');
@@ -477,7 +477,7 @@ For detailed API documentation, see the [Eve.AI Backend Documentation](https://g
 
 ## Learn More
 
-- 📖 [Eve.AI SDK for Node.js Repository](https://github.com/EveAGI/eve-sdk-for-node)
+- 📖 [Eve.AI SDK for Node.js Repository](https://github.com/EveAGI/@eveai/eve-sdk-for-node)
 - 🏗️ [Architecture Documentation](https://github.com/EveAGI/backend/blob/main/README.md)
 - 🐛 [Report Issues](https://github.com/EveAGI/backend/issues)
 
