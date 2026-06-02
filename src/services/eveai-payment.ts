@@ -23,7 +23,8 @@ export class EveAIPayment {
         isMember: boolean = false
     ): Promise<PriceCalculationResponse> {
         const path = '/payment/calculate';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             base_amount: baseAmount,
@@ -43,7 +44,8 @@ export class EveAIPayment {
         currency: string = 'usd'
     ): Promise<PaymentIntentResponse> {
         const path = '/payment/create-intent';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             task_id: taskId,
@@ -62,7 +64,8 @@ export class EveAIPayment {
         taskId: string
     ): Promise<PaymentResponse> {
         const path = '/payment/confirm';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             payment_intent_id: paymentIntentId,
@@ -77,7 +80,8 @@ export class EveAIPayment {
      */
     async subscribe(paymentMethodId: string): Promise<SubscriptionResponse> {
         const path = '/payment/subscribe';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             payment_method_id: paymentMethodId
@@ -91,7 +95,8 @@ export class EveAIPayment {
      */
     async cancelSubscription(): Promise<SubscriptionResponse> {
         const path = '/payment/cancel-subscription';
-        return await this.client.call('post', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri);
     }
 
     /**
@@ -101,7 +106,8 @@ export class EveAIPayment {
      */
     async getSubscription(): Promise<SubscriptionResponse> {
         const path = '/payment/subscription';
-        return await this.client.call('get', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri);
     }
 
     /**
@@ -114,7 +120,8 @@ export class EveAIPayment {
         pageSize: number = 20
     ): Promise<PaymentListResponse> {
         const path = '/payment/history';
-        return await this.client.call('get', path, {}, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, {
             page,
             page_size: pageSize
         });
@@ -133,8 +140,9 @@ export class EveAIPayment {
         const payload: any = {};
         if (startDate) payload.start_date = startDate;
         if (endDate) payload.end_date = endDate;
-        
-        return await this.client.call('get', path, {}, payload);
+
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, payload);
     }
 
     /**
@@ -144,7 +152,8 @@ export class EveAIPayment {
      */
     async requestPayout(amount: number): Promise<PayoutResponse> {
         const path = '/payment/payout';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, { amount });
     }

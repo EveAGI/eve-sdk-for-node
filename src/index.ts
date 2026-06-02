@@ -43,7 +43,7 @@ export type {
     ConversationResponse,
     ConversationListResponse,
     MessageResponse,
-    Message,
+    Message as ChatMessage,
     MessageListResponse,
     UnreadCountResponse
 } from './services/eveai-chat';

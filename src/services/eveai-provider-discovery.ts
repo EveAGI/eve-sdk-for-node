@@ -25,7 +25,8 @@ export class EveAIProviderDiscovery {
         maxResults: number = 20
     ): Promise<SearchProvidersResponse> {
         const path = '/provider-discovery/search';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             task_id: taskId,
@@ -48,7 +49,8 @@ export class EveAIProviderDiscovery {
         maxProviders: number = 10
     ): Promise<ContactProvidersResponse> {
         const path = '/provider-discovery/contact';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             search_id: searchId,
@@ -70,7 +72,8 @@ export class EveAIProviderDiscovery {
      */
     async getSearchResults(searchId: string): Promise<SearchResultsResponse> {
         const path = `/provider-discovery/search/${searchId}`;
-        return await this.client.call('get', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri);
     }
 
     /**
@@ -86,7 +89,8 @@ export class EveAIProviderDiscovery {
         message?: string
     ): Promise<StatusResponse> {
         const path = '/provider-discovery/track';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             attempt_id: attemptId,
@@ -112,8 +116,9 @@ export class EveAIProviderDiscovery {
         if (searchId) payload.search_id = searchId;
         if (startDate) payload.start_date = startDate;
         if (endDate) payload.end_date = endDate;
-        
-        return await this.client.call('get', path, {}, payload);
+
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, payload);
     }
 }
 

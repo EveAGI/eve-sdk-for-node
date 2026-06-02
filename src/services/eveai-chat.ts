@@ -22,7 +22,8 @@ export class EveAIChat {
         participantIds: number[]
     ): Promise<ConversationResponse> {
         const path = '/chat/conversations';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             task_id: taskId,
@@ -37,7 +38,8 @@ export class EveAIChat {
      */
     async getConversation(conversationId: string): Promise<ConversationResponse> {
         const path = `/chat/conversations/${conversationId}`;
-        return await this.client.call('get', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri);
     }
 
     /**
@@ -50,7 +52,8 @@ export class EveAIChat {
         pageSize: number = 20
     ): Promise<ConversationListResponse> {
         const path = '/chat/conversations';
-        return await this.client.call('get', path, {}, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, {
             page,
             page_size: pageSize
         });
@@ -68,7 +71,8 @@ export class EveAIChat {
         metadata?: any
     ): Promise<MessageResponse> {
         const path = `/chat/conversations/${conversationId}/messages`;
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             content,
@@ -88,7 +92,8 @@ export class EveAIChat {
         pageSize: number = 50
     ): Promise<MessageListResponse> {
         const path = `/chat/conversations/${conversationId}/messages`;
-        return await this.client.call('get', path, {}, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, {
             page,
             page_size: pageSize
         });
@@ -104,7 +109,8 @@ export class EveAIChat {
         messageIds: string[]
     ): Promise<StatusResponse> {
         const path = `/chat/conversations/${conversationId}/read`;
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, {
             message_ids: messageIds
@@ -118,7 +124,8 @@ export class EveAIChat {
      */
     async getUnreadCount(): Promise<UnreadCountResponse> {
         const path = '/chat/unread';
-        return await this.client.call('get', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri);
     }
 
     /**
@@ -133,8 +140,9 @@ export class EveAIChat {
         const path = '/chat/search';
         const payload: any = { query };
         if (conversationId) payload.conversation_id = conversationId;
-        
-        return await this.client.call('get', path, {}, payload);
+
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, payload);
     }
 }
 

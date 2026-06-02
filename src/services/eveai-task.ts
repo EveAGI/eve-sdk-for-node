@@ -40,7 +40,8 @@ export class EveAITask {
             audio_path: audioPath
         };
 
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, payload);
     }
@@ -52,7 +53,8 @@ export class EveAITask {
      */
     async getTask(taskId: string): Promise<TaskResponse> {
         const path = `/task/${taskId}`;
-        return await this.client.call('get', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri);
     }
 
     /**
@@ -71,7 +73,8 @@ export class EveAITask {
         if (status) payload.status = status;
         if (category) payload.category = category;
 
-        return await this.client.call('get', path, {}, payload);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, payload);
     }
 
     /**
@@ -81,7 +84,8 @@ export class EveAITask {
      */
     async acceptTask(taskId: string): Promise<TaskResponse> {
         const path = `/task/${taskId}/accept`;
-        return await this.client.call('post', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri);
     }
 
     /**
@@ -91,7 +95,8 @@ export class EveAITask {
      */
     async completeTask(taskId: string): Promise<TaskResponse> {
         const path = `/task/${taskId}/complete`;
-        return await this.client.call('post', path);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri);
     }
 
     /**
@@ -101,7 +106,8 @@ export class EveAITask {
      */
     async cancelTask(taskId: string, reason?: string): Promise<TaskResponse> {
         const path = `/task/${taskId}/cancel`;
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, { reason });
     }
@@ -125,7 +131,8 @@ export class EveAITask {
         };
         if (category) payload.category = category;
 
-        return await this.client.call('get', path, {}, payload);
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('get', uri, {}, payload);
     }
 
     /**
@@ -135,7 +142,8 @@ export class EveAITask {
      */
     async analyzeText(text: string): Promise<AIAnalysisResponse> {
         const path = '/task/ai/analyze-text';
-        return await this.client.call('post', path, {
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {
             'content-type': 'application/json',
         }, { text });
     }
@@ -148,9 +156,10 @@ export class EveAITask {
     async analyzeVoice(audioData: Buffer, audioFormat: string = 'mp3'): Promise<AIAnalysisResponse> {
         const path = '/task/ai/analyze-voice';
         const formData = new FormData();
-        formData.append('audio', audioData, { filename: `audio.${audioFormat}` });
-        
-        return await this.client.call('post', path, {}, formData);
+        formData.append('audio', new Blob([audioData]), `audio.${audioFormat}`);
+
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {}, formData);
     }
 
     /**
@@ -161,9 +170,10 @@ export class EveAITask {
     async analyzeImage(imageData: Buffer, imageFormat: string = 'jpg'): Promise<AIAnalysisResponse> {
         const path = '/task/ai/analyze-image';
         const formData = new FormData();
-        formData.append('image', imageData, { filename: `image.${imageFormat}` });
-        
-        return await this.client.call('post', path, {}, formData);
+        formData.append('image', new Blob([imageData]), `image.${imageFormat}`);
+
+        const uri = new URL(this.client.config.endpoint + path);
+        return await this.client.call('post', uri, {}, formData);
     }
 }
 
