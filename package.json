@@ -1,8 +1,8 @@
 {
-  "name": "eveai-gugotik-sdk",
-  "homepage": "https://github.com/GuGoTik/backend",
-  "description": "Eve.AI + GuGoTik Node.js SDK - Complete SDK for Eve.AI marketplace and GuGoTik social platform with AI-powered task management, payments, chat, and provider discovery",
-  "version": "2.0.0",
+  "name": "@eveai/eve-sdk-for-node",
+  "homepage": "https://github.com/EveAGI/eve-sdk-for-node",
+  "description": "Eve.AI Node.js SDK - Artificial General Intelligence Platform SDK for Node.js applications",
+  "version": "0.0.1",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "type": "commonjs",
@@ -38,9 +38,10 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GuGoTik/backend"
+    "url": "git+https://github.com/EveAGI/eve-sdk-for-node.git"
   },
   "keywords": [
+    "eve",
     "eveai",
     "eve.ai",
     "marketplace",
