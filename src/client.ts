@@ -69,7 +69,7 @@ class Client {
     static CHUNK_SIZE = 1024 * 1024 * 5;
 
     config = {
-        endpoint: 'http://localhost:37000',
+        endpoint: 'https://api.eve.ai/v1',
         selfSigned: false,
         token: '',
         timeout: 600000, // 10 minutes default timeout for large video uploads

@@ -12,7 +12,7 @@ const path = require('path');
 // Initialize the client
 const client = new Client();
 client
-    .setEndpoint('http://localhost:37000') // Your GuGoTik backend endpoint
+    .setEndpoint('https://api.eve.ai/v1') // Your GuGoTik backend endpoint
     .setToken('your-auth-token-here');     // Set authentication token
 
 const publish = new Publish(client);

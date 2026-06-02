@@ -10,7 +10,7 @@ const { Client, Auth, UserService, Feed, Publish, CommentService, Favorite, Rela
 // Initialize the client
 const client = new Client();
 client
-    .setEndpoint('http://localhost:37000')  // Your GuGoTik backend endpoint
+    .setEndpoint('https://api.eve.ai/v1')  // Your GuGoTik backend endpoint
     .setSelfSigned(true);                   // Use only in dev mode with self-signed SSL cert
 
 // Example 1: User Registration

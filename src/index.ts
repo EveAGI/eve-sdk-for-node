@@ -13,6 +13,52 @@ export { Relation } from './services/relation';
 export { MessageService, type Message } from './services/message';
 export { GuGoTikStorage } from './services/gugotik-storage';
 
+// Eve.AI Services
+export { EveAITask } from './services/eveai-task';
+export type {
+    Task,
+    TaskResponse,
+    TaskListResponse,
+    AIAnalysisResponse,
+    TaskLocation,
+    AIAnalysis,
+    TaskSuggestion
+} from './services/eveai-task';
+
+export { EveAIPayment } from './services/eveai-payment';
+export type {
+    PriceCalculationResponse,
+    PaymentIntentResponse,
+    PaymentResponse,
+    SubscriptionResponse,
+    Payment,
+    Subscription,
+    EarningsResponse,
+    PayoutResponse
+} from './services/eveai-payment';
+
+export { EveAIChat } from './services/eveai-chat';
+export type {
+    Conversation,
+    ConversationResponse,
+    ConversationListResponse,
+    MessageResponse,
+    Message,
+    MessageListResponse,
+    UnreadCountResponse
+} from './services/eveai-chat';
+
+export { EveAIProviderDiscovery } from './services/eveai-provider-discovery';
+export type {
+    TaskOutreachInfo,
+    SearchProvidersResponse,
+    DiscoveredProvider,
+    ContactProvidersResponse,
+    OutreachAttempt,
+    SearchResult,
+    ConversionStatsResponse
+} from './services/eveai-provider-discovery';
+
 // Legacy Appwrite Services (kept for backward compatibility)
 export { Account } from './services/account';
 export { Avatars } from './services/avatars';

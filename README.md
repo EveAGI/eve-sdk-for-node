@@ -40,7 +40,7 @@ yarn add gugotik-sdk
 
 ### Initialize the SDK
 
-Initialize your SDK with your GuGoTik backend endpoint (default: `http://localhost:37000`):
+Initialize your SDK with your GuGoTik backend endpoint (default: `https://api.eve.ai/v1`):
 
 ```javascript
 const { Client, Auth } = require('gugotik-sdk');
@@ -48,7 +48,7 @@ const { Client, Auth } = require('gugotik-sdk');
 const client = new Client();
 
 client
-    .setEndpoint('http://localhost:37000') // Your GuGoTik backend endpoint
+    .setEndpoint('https://api.eve.ai/v1') // Your GuGoTik backend endpoint
     .setSelfSigned(true); // Use only in dev mode with self-signed SSL cert
 ```
 
@@ -60,7 +60,7 @@ client
 const { Client, Auth } = require('gugotik-sdk');
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai/v1');
 
 const auth = new Auth(client);
 
@@ -82,7 +82,7 @@ try {
 const { Client, Auth } = require('gugotik-sdk');
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai/v1');
 
 const auth = new Auth(client);
 
@@ -445,7 +445,7 @@ The SDK is written in TypeScript and includes full type definitions:
 import { Client, Auth, Feed, Video, User } from 'gugotik-sdk';
 
 const client = new Client()
-    .setEndpoint('http://localhost:37000');
+    .setEndpoint('https://api.eve.ai/v1');
 
 const auth = new Auth(client);
 const feed = new Feed(client);
