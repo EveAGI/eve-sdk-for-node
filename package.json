@@ -2,7 +2,7 @@
   "name": "@eveai/eve-sdk-for-node",
   "homepage": "https://github.com/EveAGI/eve-sdk-for-node",
   "description": "Eve.AI Node.js SDK - Artificial General Intelligence Platform SDK for Node.js applications",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "type": "commonjs",
